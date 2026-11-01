@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan José Gómez | Ingeniería de software & Infraestructura Estratégica</title>
+    <meta name="description" content="Ingeniería de software, política industrial y análisis de infraestructura estratégica.">
+
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --bg-canvas: #FBFBFA;
+            --text-main: #1E2022;
+            --text-muted: #636B74;
+            --accent-navy: #1A365D;
+            --border-hairline: #E5E7EB;
+            --telemetry-green: #10B981;
+            --card-bg: #FFFFFF;
+            
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-serif: 'Newsreader', Georgia, Cambria, "Times New Roman", Times, serif;
+            --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+/* Design Tokens & Themes */
+[data-theme="dark"] {
+    --bg-canvas: #0E1117;          
+    --text-main: #F3F4F6;          
+    --text-muted: #9CA3AF;         
+    --accent-navy: #60A5FA;        
+    --border-hairline: #21262D;    
+    --card-bg: #161B22;            
+}
+
+[data-theme="dark"] .text-muted,
+[data-theme="dark"] .font-serif.text-muted,
+[data-theme="dark"] .font-mono.text-muted {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .nav-glass {
+    background: rgba(14, 17, 23, 0.85);
+    border-bottom: 1px solid var(--border-hairline);
+}
+
+[data-theme="dark"]::before {
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+[data-theme="dark"] .form-control-editorial {
+    background: #0E1117;
+    color: var(--text-main);
+    border-color: var(--border-hairline);
+}
+
+[data-theme="dark"] .form-control-editorial::placeholder {
+    color: var(--text-muted);
+}
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(99, 107, 116, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 107, 116, 0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .font-serif {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        .font-mono {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            letter-spacing: -0.01em;
+        }
+
+        a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-navy);
+        }
+
+        .reading-width {
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-width {
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-spacing {
+            padding-top: 6rem;
+            padding-bottom: 3rem;
+        }
+
+        [id] {
+            scroll-margin-top: 100px;
+        }
+
+        /* Components */
+        .nav-glass {
+            background: rgba(251, 251, 250, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-hairline);
+            padding: 0.75rem 0;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.6rem;
+            border: 1px solid var(--border-hairline);
+            border-radius: 4px;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .telemetry-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--telemetry-green);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .card-editorial {
+            background: var(--card-bg);
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1 1 0%; 
+        }
+
+        .card-editorial:hover {
+            border-color: var(--accent-navy);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        }
+
+        .btn-editorial {
+            background: var(--text-main);
+            color: var(--bg-canvas);
+            border: 1px solid var(--text-main);
+            border-radius: 4px;
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-editorial:hover {
+            background: var(--accent-navy);
+            border-color: var(--accent-navy);
+            color: #fff;
+        }
+
+        .avatar-placeholder {
+            width: 80px;
+            height: 80px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-hairline);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        :target, .target-highlight {
+            animation: targetPulse 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            border-radius: 8px;
+        }
+
+        @keyframes targetPulse {
+            0% {
+                background-color: rgba(16, 185, 129, 0.12);
+                outline: 2px solid var(--telemetry-green);
+                outline-offset: 6px;
+            }
+            70% {
+                background-color: rgba(16, 185, 129, 0.04);
+                outline: 2px solid rgba(16, 185, 129, 0.4);
+                outline-offset: 6px;
+            }
+            100% {
+                background-color: transparent;
+                outline: 2px solid transparent;
+                outline-offset: 6px;
+            }
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            color: var(--text-main);
+        }
+
+        .filter-btn.active {
+            font-weight: 600;
+        }
+
+        .article-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-hairline);
+            display: block;
+        }
+        
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-item:hover .article-title {
+            color: var(--accent-navy);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        
+        .form-control-editorial {
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-hairline);
+            border-radius: 4px;
+            padding: 0.5rem 0.75rem;
+            font-family: var(--font-sans);
+        }
+        
+        .form-control-editorial:focus {
+            outline: none;
+            border-color: var(--accent-navy);
+            box-shadow: 0 0 0 2px rgba(26, 54, 93, 0.1);
+        }
+
+        .text-navy { color: var(--accent-navy); }
+        .border-hairline { border: 1px solid var(--border-hairline); }
+        .border-top-hairline { border-top: 1px solid var(--border-hairline); }
+        
+        @media (max-width: 768px) {
+            .nav-links-center { display: none; }
+            .section-spacing { padding-top: 4rem; padding-bottom: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Global Navigation -->
+    <nav class="navbar fixed-top nav-glass">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <a href="#" class="fw-bold text-main fs-6 tracking-tight">JUAN JOSÉ GÓMEZ</a>
+                <div class="pill font-mono d-none d-sm-flex">
+                    <span class="telemetry-dot"></span> Aachen, DE // UTC+2
+                </div>
+            </div>
+            
+            <div class="nav-links-center d-flex gap-4 font-sans fs-6 text-muted">
+                <a href="#ingenieria">Ingeniería</a>
+                <a href="#estado">Estado</a>
+                <a href="#analisis">Análisis</a>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+    
+    <button id="theme-toggle" class="pill font-mono" style="cursor: pointer; background: transparent; padding: 0.35rem 0.6rem;" aria-label="Cambiar tema">
+        <i class="bi bi-moon-stars" id="theme-icon"></i>
+    </button>
+    
+    <a href="#contacto" class="btn-editorial text-decoration-none">Contacto ↗</a>
+     </div>
+            
+        </div>
+    </nav>
+
+    <!-- Hero / Positioning -->
+    <section class="container section-spacing mt-4">
+        <div class="hero-width">
+            <div class="avatar-placeholder">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+            <h1 class="display-5 fw-bold mb-4 text-main" style="letter-spacing: -0.03em;">
+                Ingeniería de software // Política industrial e infraestructura estratégica
+            </h1>
+            <p class="font-serif mb-4">
+                Diseño sistemas de software y analizo infraestructuras de Estado bajo el mismo estándar: modelos deterministas que deben resistir la fricción, alinear incentivos y servir al individuo.
+            </p>
+            <div class="d-flex flex-wrap gap-3 font-mono text-muted">
+                <a href="https://github.com/RealJuanJoc" target="_blank" rel="noopener">GitHub: RealJuanJoc</a>
+                <span>//</span>
+                <a href="https://x.com/RealJuanJoc" target="_blank" rel="noopener">X: @RealJuanJoc</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid: Technical & Policy Vectors -->
+    <section class="container section-spacing pt-0">
+        <div class="row g-4 align-items-stretch">
+            
+            <div class="col-md-6 d-flex flex-column" id="ingenieria">
+                <h2 class="font-mono text-muted mb-4">// 01. INGENIERÍA_Y_SOFTWARE</h2>
+                <div class="d-flex flex-column gap-3 flex-grow-1">
+                    
+                    <a href="https://github.com/RealJuanJoc" target="_blank" rel="noopener" class="card-editorial text-decoration-none">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="fs-5 mb-0 text-main">Sistema de Enrutamiento & DNS Edge</h3>
+                                <span class="pill font-mono" style="font-size: 0.7rem;">[En Producción]</span>
+                            </div>
+                            <p class="font-serif text-muted mb-0 fs-6">
+                                Implementación sobre Cloudflare Workers y DNS Telemetry utilizando Vanilla JS para enrutamiento de baja latencia.
+                            </p>
+                        </div>
+                        <div class="mt-3 font-mono text-muted" style="font-size: 0.75rem;">
+                            <span>Stack: Cloudflare Workers · DNS · JS ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://github.com/RealJuanJoc" target="_blank" rel="noopener" class="card-editorial text-decoration-none">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="fs-5 mb-0 text-main">Core Ledger & Gestión de Transacciones</h3>
+                                <span class="pill font-mono" style="font-size: 0.7rem;">[DAM / UNIR]</span>
+                            </div>
+                            <p class="font-serif text-muted mb-0 fs-6">
+                                Arquitectura MVC desarrollada en Java con persistencia en PostgreSQL para procesamiento transaccional seguro.
+                            </p>
+                        </div>
+                        <div class="mt-3 font-mono text-muted" style="font-size: 0.75rem;">
+                            <span>Stack: Java · PostgreSQL · MVC ↗</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="col-md-6 d-flex flex-column" id="estado">
+                <h2 class="font-mono text-muted mb-4">// 02. POLÍTICAS_PÚBLICAS_Y_ESTADO</h2>
+                <div class="d-flex flex-column gap-3 flex-grow-1">
+                    
+                    <a href="#analisis" class="card-editorial text-decoration-none">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="fs-5 mb-0 text-main">Plan RECORD — Nexo tracción-red ferroviaria</h3>
+                                <span class="pill font-mono" style="font-size: 0.7rem;">[Dossier Técnico // 14 min]</span>
+                            </div>
+                            <p class="font-serif text-muted mb-0 fs-6">
+                                Análisis de subestaciones de tracción, mitigación de frenado regenerativo e integración con el Sistema Eléctrico Nacional.
+                            </p>
+                        </div>
+                        <div class="mt-3 font-mono text-muted" style="font-size: 0.75rem;">
+                            <span>Foco: Infraestructura Crítica · SEN ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="#analisis" class="card-editorial text-decoration-none">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="fs-5 mb-0 text-main">Doctrina del gas costa afuera</h3>
+                                <span class="pill font-mono" style="font-size: 0.7rem;">[Propuesta de Reforma]</span>
+                            </div>
+                            <p class="font-serif text-muted mb-0 fs-6">
+                                Diseño de marco regulatorio para la inversión privada y estructuración de incentivos en la explotación offshore.
+                            </p>
+                        </div>
+                        <div class="mt-3 font-mono text-muted" style="font-size: 0.75rem;">
+                            <span>Foco: Marco Jurídico · Energía ↗</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Technical Dossiers Index -->
+    <section id="analisis" class="container section-spacing pt-4">
+        <div class="reading-width">
+            <h2 class="font-mono text-muted mb-4">// 03. CUADERNO_DE_ANÁLISIS</h2>
+            
+            <div class="filter-tabs font-mono fs-6">
+                <button class="filter-btn active" data-filter="all">[ Todos ]</button>
+                <button class="filter-btn" data-filter="record">[ Plan RECORD / Vzla ]</button>
+                <button class="filter-btn" data-filter="alemania">[ Laboratorio Alemán & NRW ]</button>
+                <button class="filter-btn" data-filter="sistemas">[ Teoría de Sistemas ]</button>
+            </div>
+
+            <div id="articles-container">
+                
+                <a href="#" class="article-item text-decoration-none" data-category="alemania">
+                    <div class="article-meta font-mono">
+                        <span>19 Oct 2026</span>
+                        <span>—</span>
+                        <span>Laboratorio Alemán & NRW</span>
+                    </div>
+                    <h3 class="article-title fs-4 mb-2 text-main">La articulación RWTH-IHK Aachen: transferencia tecnológica y el modelo Mittelstand en Renania del Norte-Westfalia</h3>
+                    <p class="font-serif text-muted mb-2">Un análisis sobre cómo la fricción institucional se reduce cuando la academia y la cámara de comercio operan bajo incentivos alineados.</p>
+                    <div class="font-mono text-muted" style="font-size: 0.75rem;">[8 min]</div>
+                </a>
+
+                <a href="#" class="article-item text-decoration-none" data-category="record">
+                    <div class="article-meta font-mono">
+                        <span>02 Sep 2026</span>
+                        <span>—</span>
+                        <span>Plan RECORD / Vzla</span>
+                    </div>
+                    <h3 class="article-title fs-4 mb-2 text-main">Topología de red y vulnerabilidad en el Sistema Interconectado</h3>
+                    <p class="font-serif text-muted mb-2">Por qué la centralización del despacho de carga genera fallos en cascada y cómo una arquitectura distribuida mitiga el riesgo sistémico.</p>
+                    <div class="font-mono text-muted" style="font-size: 0.75rem;">[12 min]</div>
+                </a>
+
+                <a href="#" class="article-item text-decoration-none" data-category="sistemas">
+                    <div class="article-meta font-mono">
+                        <span>14 Jul 2026</span>
+                        <span>—</span>
+                        <span>Teoría de Sistemas</span>
+                    </div>
+                    <h3 class="article-title fs-4 mb-2 text-main">Deuda técnica en la legislación pública</h3>
+                    <p class="font-serif text-muted mb-2">Aplicando conceptos de ingeniería de software al diseño de leyes: refactorización de códigos obsoletos y el costo del mantenimiento regulatorio.</p>
+                    <div class="font-mono text-muted" style="font-size: 0.75rem;">[6 min]</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+   <!-- Newsletter Dispatch -->
+    <section class="container section-spacing pt-0 pb-5">
+        <div class="reading-width">
+            <div class="card-editorial" style="background: var(--bg-canvas);">
+                <h3 class="fs-5 mb-2 text-main">Cuaderno de análisis técnico y notas de sistemas.</h3>
+                <p class="font-serif text-muted mb-4 fs-6">
+                    Sin ruido ni algoritmos de redes. Un correo ocasional con dossiers de fondo sobre infraestructura y proyectos de software.
+                </p>
+                <form class="d-flex gap-2" onsubmit="event.preventDefault();">
+                    <input type="email" class="form-control-editorial flex-grow-1" placeholder="tu@correo.com" required>
+                    <button type="submit" class="btn-editorial">Suscribirse</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Institutional Footer -->
+    <footer class="container mt-4 pt-5 pb-5 border-top-hairline">
+        <div class="row g-4 align-items-start">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <span class="font-mono text-main" id="email-text">juan@juanjosegomez.com</span>
+                    <button id="copy-btn" class="pill font-mono" style="cursor: pointer; background: transparent;">
+                        Copiar
+                    </button>
+                </div>
+                <div class="d-flex gap-3 font-mono text-muted" style="font-size: 0.8rem;">
+                    <a href="https://github.com/RealJuanJoc" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://x.com/RealJuanJoc" target="_blank" rel="noopener">X (Twitter)</a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="font-mono text-muted mb-1" style="font-size: 0.75rem; line-height: 1.6;">
+                    © 2026 Juan José Gómez // Aachen, Nordrhein-Westfalen<br>
+                    Desarrollado con HTML semántico, Bootstrap 5 y Cloudflare Pages.
+                </p>
+                <p class="font-mono text-muted mb-0" style="font-size: 0.70rem;">
+                    <a href="#" class="text-muted">Impressum</a> · <a href="#" class="text-muted">Datenschutz</a> · Licencia MIT
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Anchor navigation & target highlighting
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#' || targetId === '') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        history.pushState(null, null, targetId);
+                        
+                        const headerOffset = 90;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        targetElement.classList.remove('target-highlight');
+                        void targetElement.offsetWidth;
+                        targetElement.classList.add('target-highlight');
+                    }
+                });
+            });
+
+            // Category filter logic
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const articles = document.querySelectorAll('.article-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    articles.forEach(article => {
+                        if (filterValue === 'all' || article.getAttribute('data-category') === filterValue) {
+                            article.style.display = 'block';
+                        } else {
+                            article.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Clipboard utility
+            const copyBtn = document.getElementById('copy-btn');
+            const emailText = document.getElementById('email-text').innerText;
+
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(emailText);
+                    const originalText = copyBtn.innerText;
+                    copyBtn.innerText = 'Copiado';
+                    copyBtn.style.color = 'var(--telemetry-green)';
+                    copyBtn.style.borderColor = 'var(--telemetry-green)';
+                    
+                    setTimeout(() => {
+                        copyBtn.innerText = originalText;
+                        copyBtn.style.color = '';
+                        copyBtn.style.borderColor = '';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Error al copiar: ', err);
+                }
+            });
+
+            // Theme toggle: sincronización de icono y eventos de usuario
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+
+            // Sincronizar estado del icono según el tema ya aplicado por el <head>
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                themeIcon.classList.replace('bi-moon-stars', 'bi-sun');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                
+                if (isDark) {
+                    document.documentElement.removeAttribute('data-theme');
+                    document.documentElement.removeAttribute('data-bs-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.classList.replace('bi-sun', 'bi-moon-stars');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.classList.replace('bi-moon-stars', 'bi-sun');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
