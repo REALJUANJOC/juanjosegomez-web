@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressum | Juan José Gómez</title>
+    <meta name="robots" content="noindex, follow">
+
+    <!-- Ejecución síncrona anti-FOUC -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+            }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --bg-canvas: #FBFBFA;
+            --text-main: #1E2022;
+            --text-muted: #636B74;
+            --accent-navy: #1A365D;
+            --border-hairline: #E5E7EB;
+            --card-bg: #FFFFFF;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-serif: 'Newsreader', Georgia, serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        [data-theme="dark"] {
+            --bg-canvas: #0E1117;
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --accent-navy: #60A5FA;
+            --border-hairline: #21262D;
+            --card-bg: #161B22;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .reading-width { max-width: 680px; margin: 0 auto; }
+        .font-mono { font-family: var(--font-mono); font-size: 0.85rem; }
+        .font-serif { font-family: var(--font-serif); line-height: 1.7; }
+        .nav-glass {
+            background: rgba(251, 251, 250, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-hairline);
+            padding: 0.75rem 0;
+        }
+        [data-theme="dark"] .nav-glass {
+            background: rgba(14, 17, 23, 0.85);
+            border-bottom: 1px solid var(--border-hairline);
+        }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.6rem;
+            border: 1px solid var(--border-hairline);
+            border-radius: 4px;
+            background: var(--card-bg);
+            color: var(--text-muted);
+        }
+        a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        a:hover {
+            color: var(--accent-navy);
+        }
+        article a {
+            color: var(--accent-navy);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        article a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Global Navigation -->
+    <nav class="navbar fixed-top nav-glass">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="/" class="fw-bold text-main fs-6 text-decoration-none">← JUAN JOSÉ GÓMEZ</a>
+            <button id="theme-toggle" class="pill font-mono" style="cursor: pointer; background: transparent; padding: 0.35rem 0.6rem;" aria-label="Theme Switcher">
+                <i class="bi bi-moon-stars" id="theme-icon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 7rem; padding-bottom: 4rem;">
+        <article class="reading-width">
+            <h1 class="fs-2 fw-bold mb-4">Impressum</h1>
+            
+          <section class="mb-4">
+                <h2 class="font-mono text-muted fs-6 mb-2">// ANGABEN GEMÄSS § 5 DDG</h2>
+                <p class="font-serif mb-1">Juan José Gómez</p>
+                <p class="font-serif text-muted mb-1">Aachen, Nordrhein-Westfalen, Deutschland</p>
+                <p class="font-serif text-muted fs-6" style="font-size: 0.85rem;">
+                    (Zustellfähige Anschrift auf Anfrage per E-Mail bzw. im Rahmen administrativer Vertretung)
+                </p>
+            </section>
+
+            <section class="mb-4">
+                <h2 class="font-mono text-muted fs-6 mb-2">// KONTAKT</h2>
+                <p class="font-serif mb-1">E-Mail: juan@juanjosegomez.com</p>
+            </section>
+
+            <section class="mb-4">
+                <h2 class="font-mono text-muted fs-6 mb-2">// VERANTWORTLICH FÜR DEN INHALT NACH § 18 ABS. 2 MSTV</h2>
+                <p class="font-serif mb-1">Juan José Gómez</p>
+                <p class="font-serif text-muted mb-1">Aachen, Deutschland</p>
+            </section>
+
+            <section class="mb-4">
+                <h2 class="font-mono text-muted fs-6 mb-2">// HAFTUNG FÜR INHALTE</h2>
+                <p class="font-serif text-muted fs-6">
+                    Als Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+                </p>
+            </section>
+
+            <section class="mb-4">
+                <h2 class="font-mono text-muted fs-6 mb-2">// HAFTUNG FÜR LINKS</h2>
+                <p class="font-serif text-muted fs-6">
+                    Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+                </p>
+            </section>
+
+            <section class="mb-4">
+                <h2 class="font-mono text-muted fs-6 mb-2">// URHEBERRECHT</h2>
+                <p class="font-serif text-muted fs-6">
+                    Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+                </p>
+            </section>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="container text-center py-4 border-top" style="border-color: var(--border-hairline) !important;">
+        <p class="font-mono text-muted mb-0" style="font-size: 0.75rem;">
+            <a href="/" class="text-muted">Startseite</a> · <a href="/datenschutz.html" class="text-muted">Datenschutzerklärung</a>
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                themeIcon.classList.replace('bi-moon-stars', 'bi-sun');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                if (isDark) {
+                    document.documentElement.removeAttribute('data-theme');
+                    document.documentElement.removeAttribute('data-bs-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.classList.replace('bi-sun', 'bi-moon-stars');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.classList.replace('bi-moon-stars', 'bi-sun');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
